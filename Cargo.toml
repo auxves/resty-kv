@@ -1,0 +1,17 @@
+[package]
+name = "resty-kv"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "0.8.1"
+tokio = { version = "1.44.1", features = ["full"] }
+tracing = "0.1.41"
+r2d2_sqlite = { version = "0.27.0", features = ["bundled"] }
+r2d2 = "0.8.10"
+tracing-subscriber = "0.3.19"
+tracing-logfmt = { version = "0.3.5", features = ["ansi_logs"] }
+tower-http = { version = "0.6.2", features = ["trace", "cors"] }
+uuid = { version = "1.16.0", features = ["v4"] }
+clap = { version = "4.5.32", features = ["derive", "env"] }
+subtle = "2.6.1"
