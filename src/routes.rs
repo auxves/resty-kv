@@ -7,7 +7,7 @@ use axum::{
 };
 
 use r2d2::Pool;
-use r2d2_sqlite::SqliteConnectionManager;
+use r2d2_sqlite::{rusqlite, SqliteConnectionManager};
 use tower_http::{
     cors::{Any, CorsLayer},
     trace::TraceLayer,
@@ -85,6 +85,8 @@ pub async fn get(Path(key): Path<String>, State(pool): AppState) -> Result<Strin
             trace!(key, value, "got record");
             Ok(value)
         }
+
+        Err(rusqlite::Error::QueryReturnedNoRows) => Err(StatusCode::NOT_FOUND),
 
         Err(err) => {
             error!(?err);
