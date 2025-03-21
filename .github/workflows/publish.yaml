@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: auxves/${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   oci:
@@ -44,3 +44,5 @@ jobs:
           platforms: |
             linux/amd64
             linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
