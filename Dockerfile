@@ -1,6 +1,8 @@
 FROM docker.nix-community.org/nixpkgs/nix-flakes:latest as builder
 WORKDIR /src
 COPY . .
+
+RUN nix develop .#ci --option filter-syscalls false -c true
 RUN nix build --option filter-syscalls false
 
 FROM scratch

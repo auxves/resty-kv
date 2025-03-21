@@ -14,16 +14,21 @@
         "aarch64-darwin"
         "x86_64-darwin"
       ];
-      perSystem = { pkgs, ... }:
-        {
-          packages.default =
-            if pkgs.stdenv.isLinux
-            then pkgs.pkgsStatic.callPackage ./pkg.nix { }
-            else pkgs.callPackage ./pkg.nix { };
+      perSystem = { self', pkgs, ... }: {
+        packages.default = self'.packages.resty-kv;
 
-          devShells.default = with pkgs; mkShell {
-            buildInputs = [ rustc cargo rust-analyzer clippy rustfmt ];
-          };
+        packages.resty-kv =
+          if pkgs.stdenv.isLinux
+          then pkgs.pkgsStatic.callPackage ./pkg.nix { }
+          else pkgs.callPackage ./pkg.nix { };
+
+        devShells.default = with pkgs; mkShell {
+          nativeBuildInputs = [ rustc cargo rust-analyzer clippy rustfmt ];
         };
+
+        devShells.ci = with pkgs; mkShellNoCC {
+          nativeBuildInputs = [ rustc cargo ];
+        };
+      };
     };
 }
