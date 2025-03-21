@@ -3,6 +3,7 @@ WORKDIR /src
 COPY . .
 
 RUN nix develop .#ci --option filter-syscalls false -c true
+RUN nix build .#default.cargoDeps --no-link --option filter-syscalls false
 RUN nix build --option filter-syscalls false
 
 FROM scratch

@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use axum::{
     body::Body,
-    http::{Request, Response, StatusCode, header},
+    http::{header, Request, Response, StatusCode},
     middleware::Next,
     response::IntoResponse,
 };
@@ -16,11 +16,7 @@ fn extract_token_from_header(req: &Request<Body>) -> Option<String> {
         .get(header::AUTHORIZATION)
         .and_then(|v| v.to_str().ok())?;
 
-    auth_header
-        .split_whitespace()
-        .skip(1)
-        .next()
-        .map(|x| x.to_owned())
+    auth_header.split_whitespace().nth(1).map(|x| x.to_owned())
 }
 
 pub async fn authenticate(req: Request<Body>, next: Next) -> Response<Body> {

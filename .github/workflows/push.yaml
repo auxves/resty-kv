@@ -1,0 +1,26 @@
+name: Push
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v14
+
+      - name: Cache Nix Store
+        uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - name: Check Flake
+        run: nix flake check
+
+      - name: Build
+        run: nix build
+
+      - name: Clippy
+        run: nix develop -c cargo clippy

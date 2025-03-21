@@ -6,7 +6,9 @@ rustPlatform.buildRustPackage {
 
   src = builtins.path { path = ./.; };
 
-  cargoHash = "sha256-nC0Ks+kCYo1dvRzWrA0tlnYY4/nUo3loE8ObwEnhbNc=";
+  cargoLock = {
+    lockFile = ./Cargo.lock;
+  };
 
   meta = with lib; {
     description = "A simple key-value store based on Sqlite with an HTTP API";
